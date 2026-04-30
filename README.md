@@ -46,10 +46,64 @@ The dataset contains approximately 590,000 real-world e-commerce transactions sp
 - Evaluate model performance at different decision thresholds to reflect the real-world trade-off between fraud catch rate and false decline rate.
 
 #### Results
-What did your research find?
+**Data structure**
+- I merged train_transaction (590,540 × 394) and train_identity (144,233 × 41) into a 590,540 × 434 training table and similarly merged the test tables.
+- The target isFraud has mean ≈ 0.035, confirming ~3.5% fraud rate (strong class imbalance).
+
+**Core numeric features**
+- TransactionAmt is positive, clearly right‑skewed with a heavy tail; the median is ~68.8 and the maximum is ~31,937, indicating a few very large outliers.
+- TransactionDT spans a large range and is not a calendar timestamp but an increasing integer that one can convert to approximate days and hours; distributions are broad, as expected.
+- Customer‑behaviour count features C1–C8 show extreme skew: medians at 0–1 with occasional large values (thousands), consistent with count‑style features that can be good predictors.
+
+**Categorical / identity hints**
+- DeviceType appears in the merged table with non‑trivial missingness and different fraud rates: in your small table desktop has ~6.5% and mobile ~10.2% fraud (on the subset shown), suggesting device type is informative.
+- The identity file contributes 41 additional fields (id_01–id_38, DeviceType, DeviceInfo) but many have high missing fractions and need careful treatment.
+
+**Missingness**
+- Many identity and V‑features have substantial missingness (often > 50%, some > 90%), while core transaction fields like TransactionAmt, card1, C1–C8 are largely complete.
+- This pattern suggests a two‑tier feature set: robust, low‑missing transaction features and sparser identity/V‑features to be either imputed or selectively used.
+
+**Baseline model: Logistic Regression**
+- For an initial baseline, I trained regularised Logistic Regression models using engineered feature set (log‑transformed transaction amount, time‑based features, customer behaviour counts C1–C8, early delay features D1–D5, location features addr1/dist1, and simple count and fraud‑rate encodings for card, email domain, and device type).
+- Median imputation and standardisation were applied to all numeric features, and features with more than 95% missing values or purely identifier roles (e.g. TransactionID) were excluded from the model input.
+- Class imbalance (only 3.5% of training transactions are labelled as fraud) was handled using class‑weighted loss during training.
+- Both an L2‑ and an L1‑regularised Logistic Regression were fitted on an 80/20 stratified train–validation split.
+- The L2 model achieved a ROC‑AUC of 0.8612 and a PR‑AUC of 0.3162 on the validation set, while the L1 model reached a ROC‑AUC of 0.8612 and a PR‑AUC of 0.3146.
+- Given a baseline fraud prevalence of about 3.5%, these PR‑AUC scores represent a substantial improvement over random guessing, indicating that even a linear model can learn meaningful structure in the data.
+
+- At the default decision threshold of 0.5, the L2 Logistic Regression achieves 71.8% recall and 14.0% precision on the fraud class, with a confusion matrix of [[95,763, 18,212], [1,166, 2,967]] (non‑fraud negative/positive; fraud negative/positive).
+- In practical terms, the model correctly flags roughly seven out of ten fraudulent transactions but at the cost of a high false alarm rate: about six out of seven flagged transactions are legitimate.
+- Overall accuracy is 83.6%, but this figure is less meaningful due to the strong class imbalance.
+- The L1‑regularised model displays almost identical behaviour (ROC‑AUC 0.8612, PR‑AUC 0.3146, fraud recall 71.7% and precision 14.0%), but with a sparser set of non‑zero coefficients, making it somewhat easier to inspect individual feature weights.
+
+These results demonstrate that the current preprocessing and feature engineering pipeline is sound and that even a simple linear classifier can distinguish fraud from legitimate transactions substantially better than chance. However, the precision–recall trade‑off at the 0.5 threshold is not yet suitable for deployment in a real‑time fraud system, where the cost of false positives must be balanced carefully against the cost of missed fraud. Subsequent work will focus on exploring more expressive model families (e.g., gradient‑boosted trees, random forests) and on explicitly optimising the operating threshold and cost‑sensitive metrics to better align with business requirements.
+
 
 #### Next steps
-The EDA and Baseline model performance gives us a solid baseline to build multiple models for comparison, further finetune the paramters and find the most efficient and high performing model that can reliably capture cards fraud in realtime.
+The EDA and Baseline model performance gives us a solid starting point. I would extend this further as follows:
+1. Refine feature engineering and selection
+- Incorporate additional behaviour‑based features (velocity features over time windows, deviations from customer/merchant baselines, aggregated risk scores by device/IP/email).
+- Use correlation analysis and L1 coefficients to drop redundant or weak features (especially highly correlated V‑features and very sparse identity features) to reduce dimensionality and improve model stability.
+
+2. Explore advanced models for fraud detection
+- Train non‑linear models more suited to tabular fraud data, such as Gradient Boosting (e.g., XGBoost/LightGBM) or Random Forests, using the same preprocessed feature set.
+- Systematically compare these models against the Logistic Regression baseline using ROC‑AUC, PR‑AUC, and fraud‑class precision/recall, ensuring consistent validation splits.
+
+3. Experiment with imbalance handling strategies
+- Beyond class_weight="balanced", evaluate undersampling of the majority class and oversampling approaches (e.g., SMOTE or similar) to see their impact on fraud precision and recall.
+- Consider cost‑sensitive learning by assigning explicit costs to false negatives and false positives and optimising models and thresholds to minimise expected cost rather than maximise a single metric.
+
+4. Threshold tuning and operating point selection
+- Use precision–recall curves to systematically evaluate different decision thresholds and select operating points that align with realistic business trade‑offs (e.g., high recall vs acceptable alert volume).
+- Report several candidate thresholds (e.g., conservative vs aggressive) with their confusion matrices to illustrate how a bank might choose between them.
+
+5. Model interpretation and insights
+- Analyse feature importances or coefficients (for tree‑based models and Logistic Regression) to identify which transaction, customer, and device attributes contribute most to fraud scores.
+- Translate these findings into domain insights (e.g., certain time‑of‑day windows, device types, or behavioural patterns are associated with higher fraud risk), linking back to the original research questions.
+
+6. Deployment and monitoring considerations (conceptual)
+- Outline how the chosen model could be integrated into a real‑time card authorisation pipeline (latency requirements, input features available at decision time).
+- Discuss monitoring for concept drift and data drift, periodic retraining on new transactions, and ongoing recalibration of thresholds as fraud patterns evolve.
 
 #### Outline of project
 
