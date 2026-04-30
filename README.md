@@ -20,28 +20,28 @@ The dataset contains approximately 590,000 real-world e-commerce transactions sp
 #### Methodology
 **This work follows the CRISP-DM methodology:**
 
-1. Exploratory Data Analysis (EDA) and Visualisation
+**1. Exploratory Data Analysis (EDA) and Visualisation**
 - Analyse class imbalance (fraud rate ~3.5%), distribution of transaction amounts, time-of-day patterns, fraud rate by card type, email domain, and device type via histograms, boxplots, and heatmaps.
 - Visualise correlations between V-features and the fraud label to guide feature selection.
 
-2. Data Cleaning and Preprocessing
+**2. Data Cleaning and Preprocessing**
 - Handle missing values (the dataset has significant missingness in identity features), encode high-cardinality categorical variables (e.g., target encoding for card/email/device fields), and scale numeric features for linear models.
 - Apply stratified train/validation/test splits to preserve the fraud class ratio.
 
-3. Feature Engineering and Attribute Generation
+**3. Feature Engineering and Attribute Generation**
 - Engineer transaction velocity features (count and sum of transactions per card over rolling time windows), deviation features (transaction amount relative to the card's historical mean/std), and risk indicators (fraud rate by email domain, device type, and card bank).]
 - Use PCA on the 294 V-features to reduce dimensionality and support clustering/anomaly detection experiments.
 
-4. Imbalance Handling
+**4. Imbalance Handling**
 - Compare class-weighted loss functions, undersampling of the majority class, and SMOTE oversampling to assess their impact on minority-class recall.
 
-5. Modelling and Model Selection
+**5. Modelling and Model Selection**
 - A baeline logistic regression L2 and L1 model will be built as an initial exercise. This will establish a baseline model performance and expectation. This baseline is then used as a starting point to build and optimise the further mdoels and zero in on the best model for our task. The following will be further worked on as a second and final step:
     - Train and compare three supervised classifiers: regularised Logistic Regression (L1/L2) as the interpretable baseline, Random Forest, and  Gradient Boosting (XGBoost/LightGBM) as the primary candidates.
     - Optionally train an Isolation Forest as an unsupervised anomaly detector to evaluate a hybrid supervised + anomaly scoring approach.
     - Tune hyperparameters (tree depth, number of estimators, regularisation strength) via cross-validated grid/random search.
 
-6. Evaluation
+**6. Evaluation**
 - Use Precision-Recall AUC (PR-AUC), ROC-AUC, F1-score, and confusion matrices as primary metrics (not accuracy, due to class imbalance).
 - Evaluate model performance at different decision thresholds to reflect the real-world trade-off between fraud catch rate and false decline rate.
 
@@ -81,35 +81,36 @@ These results demonstrate that the current preprocessing and feature engineering
 
 #### Next steps
 The EDA and Baseline model performance gives us a solid starting point. I would extend this further as follows:
-1. Refine feature engineering and selection
+
+**1. Refine feature engineering and selection**
 - Incorporate additional behaviour‑based features (velocity features over time windows, deviations from customer/merchant baselines, aggregated risk scores by device/IP/email).
 - Use correlation analysis and L1 coefficients to drop redundant or weak features (especially highly correlated V‑features and very sparse identity features) to reduce dimensionality and improve model stability.
 
-2. Explore advanced models for fraud detection
+**2. Explore advanced models for fraud detection**
 - Train non‑linear models more suited to tabular fraud data, such as Gradient Boosting (e.g., XGBoost/LightGBM) or Random Forests, using the same preprocessed feature set.
 - Systematically compare these models against the Logistic Regression baseline using ROC‑AUC, PR‑AUC, and fraud‑class precision/recall, ensuring consistent validation splits.
 
-3. Experiment with imbalance handling strategies
+**3. Experiment with imbalance handling strategies**
 - Beyond class_weight="balanced", evaluate undersampling of the majority class and oversampling approaches (e.g., SMOTE or similar) to see their impact on fraud precision and recall.
 - Consider cost‑sensitive learning by assigning explicit costs to false negatives and false positives and optimising models and thresholds to minimise expected cost rather than maximise a single metric.
 
-4. Threshold tuning and operating point selection
+**4. Threshold tuning and operating point selection**
 - Use precision–recall curves to systematically evaluate different decision thresholds and select operating points that align with realistic business trade‑offs (e.g., high recall vs acceptable alert volume).
 - Report several candidate thresholds (e.g., conservative vs aggressive) with their confusion matrices to illustrate how a bank might choose between them.
 
-5. Model interpretation and insights
+**5. Model interpretation and insights**
 - Analyse feature importances or coefficients (for tree‑based models and Logistic Regression) to identify which transaction, customer, and device attributes contribute most to fraud scores.
 - Translate these findings into domain insights (e.g., certain time‑of‑day windows, device types, or behavioural patterns are associated with higher fraud risk), linking back to the original research questions.
 
-6. Deployment and monitoring considerations (conceptual)
+**6. Deployment and monitoring considerations (conceptual)**
 - Outline how the chosen model could be integrated into a real‑time card authorisation pipeline (latency requirements, input features available at decision time).
 - Discuss monitoring for concept drift and data drift, periodic retraining on new transactions, and ongoing recalibration of thresholds as fraud patterns evolve.
 
 #### Outline of project
 
 - Jupyter notebook: https://github.com/pchan2030/capstone-cards-fraud/blob/main/Prompt.ipynb
-- saved graphs: https://github.com/pchan2030/capstone-cards-fraud/tree/main/images
-- saved Intermediate output data: https://github.com/pchan2030/capstone-cards-fraud/tree/main/output
+- Graphs & Images: https://github.com/pchan2030/capstone-cards-fraud/tree/main/images
+- Intermediate output data: https://github.com/pchan2030/capstone-cards-fraud/tree/main/output
 
 ##### Contact and Further Information
 Author: Pinaki Chandrasekhar (pinakichan@gmail.com)
