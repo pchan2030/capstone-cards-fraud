@@ -1,23 +1,23 @@
-### Capstone Project - Cards Fraud Detection
+## Capstone Project - Cards Fraud Detection
 
 **Pinaki Chandrasekhar**
 
-#### Executive summary
+### Executive summary
 The aim is to build an effective and robust Card Fraud Detection Model with real world IEEE dataset provided by Vesta Corporation using the CRISP-DM methodology; a model that utilises engineered features, works with class imbalance, can be updated in a streamlined way and is readily adoptable in a realtime card detection process on a Payment Switch. This will help us streamline the methodology, steps and resue the process on building a robust model for other cards payment data. 
 
-#### Rationale
+### Rationale
 Card payment fraud is a critical and growing problem in financial services globally, causing billions of dollars in losses annually and undermining customer trust in digital payment systems. Detecting fraud in real time — before a transaction is authorised — requires models that are both highly accurate on a severely imbalanced dataset and fast enough to return a score within the millisecond latency constraints of a live payment switch. This capstone directly addresses that challenge by systematically comparing supervised ML techniques, evaluating the impact of feature engineering and imbalance strategies, and framing the problem around a deployable real-time scoring architecture, making the findings practically relevant to any financial institution operating a card payment platform.
 
-#### Research Question
+### Research Question
 Can machine learning models trained on real-world e-commerce transaction, identity, and device data accurately detect card payment fraud in real time, while minimising false declines for legitimate customers?
 
-#### Data Sources
+### Data Sources
 IEEE-CIS Fraud Detection Dataset (Vesta Corporation), freely available on Kaggle at:
 https://www.kaggle.com/c/ieee-fraud-detection/data
 
 The dataset contains approximately 590,000 real-world e-commerce transactions split across two joinable files — a transaction file (~394 features covering payment card details, billing address, email domain, transaction amounts, behavioural count/delta/match features, and 294 anonymised engineered V-features) and an identity file (~41 features covering device type, device model/OS, browser, screen resolution, and network connection attributes). The two files are joined on TransactionID to produce a single enriched record per transaction.
 
-#### Methodology
+### Methodology
 **This work follows the CRISP-DM methodology:**
 
 **1. Exploratory Data Analysis (EDA) and Visualisation**
@@ -45,7 +45,7 @@ The dataset contains approximately 590,000 real-world e-commerce transactions sp
 - Use Precision-Recall AUC (PR-AUC), ROC-AUC, F1-score, and confusion matrices as primary metrics (not accuracy, due to class imbalance).
 - Evaluate model performance at different decision thresholds to reflect the real-world trade-off between fraud catch rate and false decline rate.
 
-#### Results
+### Results
 **Data structure**
 - I merged train_transaction (590,540 × 394) and train_identity (144,233 × 41) into a 590,540 × 434 training table and similarly merged the test tables.
 - The target isFraud has mean ≈ 0.035, confirming ~3.5% fraud rate (strong class imbalance).
@@ -79,7 +79,7 @@ The dataset contains approximately 590,000 real-world e-commerce transactions sp
 These results demonstrate that the current preprocessing and feature engineering pipeline is sound and that even a simple linear classifier can distinguish fraud from legitimate transactions substantially better than chance. However, the precision–recall trade‑off at the 0.5 threshold is not yet suitable for deployment in a real‑time fraud system, where the cost of false positives must be balanced carefully against the cost of missed fraud. Subsequent work will focus on exploring more expressive model families (e.g., gradient‑boosted trees, random forests) and on explicitly optimising the operating threshold and cost‑sensitive metrics to better align with business requirements.
 
 
-#### Next steps
+### Next steps
 The EDA and Baseline model performance gives us a solid starting point. I would extend this further as follows:
 
 **1. Refine feature engineering and selection**
@@ -106,11 +106,11 @@ The EDA and Baseline model performance gives us a solid starting point. I would 
 - Outline how the chosen model could be integrated into a real‑time card authorisation pipeline (latency requirements, input features available at decision time).
 - Discuss monitoring for concept drift and data drift, periodic retraining on new transactions, and ongoing recalibration of thresholds as fraud patterns evolve.
 
-#### Outline of project
+### Outline of project
 
 - Jupyter notebook: https://github.com/pchan2030/capstone-cards-fraud/blob/main/Prompt.ipynb
 - Graphs & Images: https://github.com/pchan2030/capstone-cards-fraud/tree/main/images
 - Intermediate output data: https://github.com/pchan2030/capstone-cards-fraud/tree/main/output
 
-##### Contact and Further Information
+#### Contact and Further Information
 Author: Pinaki Chandrasekhar (pinakichan@gmail.com)
