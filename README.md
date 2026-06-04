@@ -55,7 +55,7 @@ capstone-cards-fraud/
   
 Data files are accessible online:  IEEE-CIS Fraud Detection Dataset (Vesta Corporation), freely available on Kaggle at:
 https://www.kaggle.com/c/ieee-fraud-detection/data
-File links:
+File links:  
 - **EDA and Baseline Modelling:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_EDA_and_baseline_modelling.ipynb
 - **Fraud Prevention Modelling and Technial Results:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_prevention_modelling.ipynb
 - **Final Business Report:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/README.md
