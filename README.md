@@ -47,11 +47,11 @@ A third next step would be to extend the cost-sensitive analysis by incorporatin
 ### 📁 Outline of the Project
 
 capstone-cards-fraud/  
-├── images/                                        *contains all teh EDA graphs  
-├── intermediate_output/                           *contains intermediate rates output for potential later use  
-├── cards_fraud_EDA_and_baseline_modelling.ipynb   *First part of the work containing EDA Analysis and Baseline Modelling  
-├── cards_fraud_prevention_modelling.ipynb         *Second part of the work containing multi-model evaluation and results  
-└── README.md                                      *Summary and results of the Cards Fraud Prevention Capstone Project  
+├── images/                                         
+├── intermediate_output/                          
+├── cards_fraud_EDA_and_baseline_modelling.ipynb   
+├── cards_fraud_prevention_modelling.ipynb         
+└── README.md                                       
   
 Data files are accessible online:  IEEE-CIS Fraud Detection Dataset (Vesta Corporation), freely available on Kaggle at:
 https://www.kaggle.com/c/ieee-fraud-detection/data
