@@ -27,6 +27,8 @@ Several models were then trained and compared. A regularised Logistic Regression
 To address class imbalance, different strategies were examined. Logistic Regression used class_weight="balanced", LightGBM was tested both with and without is_unbalance=True, and additional experiments considered the effect of rebalancing the training data and threshold tuning. A simple cost-sensitive evaluation was also performed by assigning a much higher cost to false negatives than to false positives, reflecting the fact that missed fraud is typically far more expensive than a customer alert or manual review.
 
 ### Results
+NOTE: For EDA & Baseline Modelling Analysis Report see https://github.com/pchan2030/capstone-cards-fraud/blob/main/EDAandBaselineModellingReport.md
+
 The baseline Logistic Regression model achieved a ROC-AUC of 0.8612 and PR-AUC of 0.3162, showing that the engineered features were informative but that a linear model was limited in its ability to fully separate fraud from non-fraud. At a tuned threshold near 0.52, the Logistic model achieved around 70% fraud recall and 14.8% precision, illustrating the difficulty of the problem under severe imbalance.
 
 The ensemble models substantially improved on the baseline. Random Forest achieved ROC-AUC of 0.9509 and PR-AUC of 0.7507, while XGBoost achieved ROC-AUC of 0.9575 and PR-AUC of 0.7191. The best overall performance came from the slim LightGBM model, which achieved ROC-AUC of 0.9655 and PR-AUC of 0.7661 on the validation set. At threshold 0.5, the slim LightGBM model produced a confusion matrix of [[107694, 6281], [644, 3489]], corresponding to fraud precision of 35.7% and fraud recall of 84.4%. Compared with the Logistic baseline, this represented a large gain in both ranking ability and practical fraud detection quality.
@@ -59,6 +61,7 @@ https://www.kaggle.com/c/ieee-fraud-detection/data
 File links:  
 - **EDA and Baseline Modelling:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_EDA_and_baseline_modelling.ipynb
 - **Fraud Prevention Modelling and Technial Results:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_prevention_modelling.ipynb
+- **EDA & Baseline Modelling Analysis Report:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/EDAandBaselineModellingReport.md
 - **Final Business Report:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/README.md
 
 
