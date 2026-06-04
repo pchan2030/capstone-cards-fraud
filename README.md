@@ -60,7 +60,7 @@ https://www.kaggle.com/c/ieee-fraud-detection/data
 
 File links:  
 - **EDA and Baseline Modelling:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_EDA_and_baseline_modelling.ipynb
-- **Fraud Prevention Modelling and Technial Results:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_prevention_modelling.ipynb
+- **Fraud Prevention Modelling and Technical Results:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/cards_fraud_prevention_modelling.ipynb
 - **EDA & Baseline Modelling Analysis Report:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/EDAandBaselineModellingReport.md
 - **Final Business Report:** https://github.com/pchan2030/capstone-cards-fraud/blob/main/README.md
 
